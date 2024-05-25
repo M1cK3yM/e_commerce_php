@@ -1,5 +1,6 @@
 <?php
 require_once ("header.php"); ?>
+</header>
 
 <div class="single-catagory">
     <div class="container">

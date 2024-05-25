@@ -1,7 +1,7 @@
 <?php
 require_once("header.php");
 ?>
-
+</header>
 <section class="pt-5 pb-9">
     <div class="container-small cart">
         <nav class="mb-2" aria-label="breadcrumb">

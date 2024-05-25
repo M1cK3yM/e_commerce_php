@@ -84,6 +84,10 @@ input::placeholder {
   font: inherit;
 }
 
+input[type=checkbox] {
+  accent-color: var(--primary-color);
+}
+
 h1,
 h2,
 h3,
@@ -718,6 +722,11 @@ nav .fly-items {
 .fade {
   animation-name: fade;
   animation-duration: 1.5s;
+}
+
+.swiper {
+  width: 600px;
+  height: 300px;
 }
 
 @keyframes fade {

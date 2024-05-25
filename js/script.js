@@ -7,7 +7,6 @@ function copyHeader() {
   var topPlace = document.querySelector(".off-canvas .thetop-nav");
   topPlace.innerHTML = topNav.innerHTML;
 }
-
 //show all catagory
 
 const aButton = document.querySelector(".a-cat .a-trigger"),

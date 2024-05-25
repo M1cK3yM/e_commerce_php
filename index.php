@@ -1,6 +1,7 @@
 <?php
 include ("header.php");
 ?>
+</header>
 <!-- slider -->
 
 <div class="slider">
