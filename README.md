@@ -3,3 +3,6 @@
 - step-2 : import the database.sql file to ecommerce in phpadmin
 - step-3 : database user = root password = ''
 - step-4 : copy e_commerce_php on Document root 
+
+
+-- please make a branch and contribute
