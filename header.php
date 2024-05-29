@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 require('config/config.php');
 ?>
@@ -89,9 +90,9 @@ require('config/config.php');
                                     <li><a href="index.php">Home</a></li>
                                     <li><a href="products.php">Products</a></li>
                                     <?php
-                                    $statement = $pdo->prepare("SELECT * FROM main_category WHERE is_showed=1 AND is_new=0 ");
-                                    $statement->execute();
-                                    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                    $statement = mysqli_prepare($conn, "SELECT * FROM main_category WHERE is_showed=1 AND is_new=0 ");
+                                    mysqli_stmt_execute($statement);
+                                    $result = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
                                     foreach ($result as $row) {
                                     ?>
@@ -102,9 +103,9 @@ require('config/config.php');
                                                 <div class="container">
                                                     <div class="wrapper">
                                                         <?php
-                                                        $statement = $pdo->prepare("SELECT * FROM sub_category WHERE mc_id=? ");
-                                                        $statement->execute(array($row['mc_id']));
-                                                        $result1 = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                                        $statement = mysqli_prepare($conn, "SELECT * FROM sub_category WHERE mc_id=? ");
+                                                        mysqli_stmt_execute($statement, array($row['mc_id']));
+                                                        $result1 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
                                                         foreach ($result1 as $row1) {
                                                         ?>
@@ -114,9 +115,10 @@ require('config/config.php');
                                                                     <h4><?php echo $row1['sc_name']; ?></h4>
                                                                     <ul>
                                                                         <?php
-                                                                        $statement = $pdo->prepare("SELECT * FROM end_category WHERE sc_id=? ");
-                                                                        $statement->execute(array($row1['sc_id']));
-                                                                        $result2 = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                                                        $statement = mysqli_prepare($conn, "SELECT * FROM end_category WHERE sc_id=? ");
+                                                                        
+                                                                        mysqli_stmt_execute($statement, array($row1['sc_id']));
+                                                                        $result2 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
                                                                         foreach ($result2 as $row2) { ?>
 
@@ -202,15 +204,16 @@ require('config/config.php');
                                 <div class="a-menu">
                                     <ul class="second-links">
                                         <?php
-                                        $statement = $pdo->prepare("SELECT * FROM main_category");
-                                        $statement->execute();
-                                        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                        $statement = mysqli_prepare($conn, "SELECT * FROM main_category");
+                                        mysqli_stmt_execute($statement);
+                                        $result = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
 
                                         foreach ($result as $row) {
-                                            $statement = $pdo->prepare("SELECT * FROM sub_category WHERE mc_id=? ");
-                                            $statement->execute(array($row['mc_id']));
-                                            $result1 = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                            $statement = mysqli_prepare($conn, "SELECT * FROM sub_category WHERE mc_id=? ");
+                                            mysqli_stmt_execute($statement, array($row['mc_id']));
+                                            $result1 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
+
                                             if (empty($result1) != 1) {
                                         ?>
                                                 <li class="has-child <?php echo $row['mc_name']; ?>">
@@ -231,9 +234,10 @@ require('config/config.php');
                                                                         <h4><a href="#"><?php echo $row1['sc_name']; ?></a></h4>
                                                                         <ul>
                                                                             <?php
-                                                                                        $statement = $pdo->prepare("SELECT * FROM end_category WHERE sc_id=? ");
-                                                                                        $statement->execute(array($row1['sc_id']));
-                                                                                        $result2 = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                                                                        $statement = mysqli_prepare($conn, "SELECT * FROM end_category WHERE sc_id=? ");
+                                                                                        mysqli_stmt_execute($statement, array($row1['sc_id']));
+                                                                                        $result2 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
+
                                                                                         foreach ($result2 as $row2) {
                                                                             ?>
 
@@ -274,4 +278,3 @@ require('config/config.php');
                     </div>
                 </div>
             </div>
-        

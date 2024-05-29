@@ -53,7 +53,7 @@
   border-top-right-radius: 0;
 }
 
-#forgetL {
+.form-signin a {
     color: var(--secondary-dark-color);
 }
 

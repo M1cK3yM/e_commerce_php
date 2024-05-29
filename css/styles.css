@@ -84,8 +84,13 @@ input::placeholder {
   font: inherit;
 }
 
-input[type=checkbox] {
-  accent-color: var(--primary-color);
+input:checked {
+  border-color: #c4ff93 !important;
+  background-color: var(--primary-color) !important;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--primary-color) !important;
 }
 
 h1,
@@ -317,6 +322,8 @@ h4 {
   display: flex;
   padding-left: 0.75em;
   margin-right: 2em;
+  color: inherit !important;
+  z-index: 1;
 }
 
 .circle {
@@ -339,6 +346,7 @@ h4 {
   background-color: var(--secondary-color);
   bottom: 5px;
   right: 5px;
+  z-index: 2;
 }
 
 .header-nav nav > ul {
@@ -790,6 +798,7 @@ nav .fly-items {
   }
   .logo a {
     margin-right: 2em;
+    color: inherit !important;
   }
   .header-nav {
     padding: 0;

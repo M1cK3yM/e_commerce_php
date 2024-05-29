@@ -1,6 +1,9 @@
 <?php
 require_once("header.php");
 ?>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/styles.css">
+</header>
 
 <main class="main" id="top">
     <!-- ============================================-->
@@ -187,14 +190,15 @@ require_once("header.php");
 
                         ?>
                             <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
-                                <div class="product-card-container h-100">
-                                    <div class="position-relative text-decoration-none product-card h-100">
+                                <div class="Sh-100">
+                                    <div class="text-decoration-none h-100">
                                         <div class="d-flex flex-column justify-content-between h-100">
                                             <div>
-                                                <div class="border border-1 border-translucent rounded-3 position-relative mb-3">
-                                                    <button class="btn btn-wish btn-wish-primary z-2 d-toggle-container" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to wishlist">
-                                                        <span class="fa fa-heart d-block-hover"></span><span class="fa fa-heart d-none-hover"></span>
-                                                    </button><img class="img-fluid" src="assets/products/<?php echo $row1['cover']; ?>" alt="" />
+                                                <div class="border border-1 rounded-3 position-relative mb-3">
+                                                    <span class="badge position-absolute translate-middle bg-primary" style="top: 30px; right: 5px;" >
+                                                        <span class="fa fa-heart d-block-hover " style="font-size: 20px;"></span>
+                                                    </span>
+                                                    <img class="img-fluid" src="assets/products/<?php echo $row1['cover']; ?>" alt="" />
                                                 </div>
                                                 <a class="stretched-link" href="product-details.php?id=<?php echo $row1['id'] ?>">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name"><?php echo $row1['name']; ?></h6>

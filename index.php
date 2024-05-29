@@ -1,6 +1,9 @@
 <?php
-include ("header.php");
+include("header.php");
 ?>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/owl.carousel.min.css">
+<link rel="stylesheet" href="css/styles.css">
 </header>
 <!-- slider -->
 
@@ -10,12 +13,12 @@ include ("header.php");
             <div class="myslider">
                 <div class="wrapper">
                     <?php
-                    $statement = $pdo->prepare("SELECT * FROM slider LIMIT 4");
-                    $statement->execute();
-                    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+                    $statement = mysqli_prepare($conn, "SELECT * FROM slider LIMIT 4");
+                    mysqli_stmt_execute($statement);
+                    $result = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
+                    
                     foreach ($result as $row) {
-                        ?>
+                    ?>
                         <div class="slide">
                             <div class="item">
                                 <div class="image object-cover">
@@ -25,12 +28,11 @@ include ("header.php");
                                     <h4><?php echo $row['heading']; ?></h4>
                                     <h2><span><?php echo $row['content1']; ?></span><br><span><?php echo $row['content2']; ?></span>
                                     </h2>
-                                    <a href="<?php echo $row['button_url']; ?>"
-                                        class="primary-button"><?php echo $row['button_text']; ?></a>
+                                    <a href="<?php echo $row['button_url']; ?>" class="primary-button"><?php echo $row['button_text']; ?></a>
                                 </div>
                             </div>
                         </div>
-                        <?php
+                    <?php
                     }
                     ?>
                 </div>
@@ -58,84 +60,57 @@ include ("header.php");
             <div class="sectop flexitem">
                 <h2><span class="circle"></span><span>Trending Products</span></h2>
             </div>
-
-            <?php 
+            <div class="product-carousel row align-item-center">
+                <?php
                 $statement = mysqli_prepare($conn, "SELECT * FROM products WHERE is_trending = 1");
                 mysqli_stmt_execute($statement);
-                $result = mysqli_fetch_assoc(mysqli_stmt_get_result($statement));
-                
-                
-            ?>
+                $result = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
-            <div class="column">
-                <div class="flexwrap">
-                    <?php 
-                        print_r($result);
-                        foreach($result as $row) {
-                            print_r($row);
-                        }
-                    ?>
-                    <div class="row products big">
-                        <div class="item">
-
-
-                            <div class="offer">
-                                <p>Offer ends at</p>
-                                <ul class="flexcenter">
-                                    <li>1</li>
-                                    <li>15</li>
-                                    <li>27</li>
-                                    <li>60</li>
-                                </ul>
-                            </div>
+                foreach ($result as $row) {
+                    $statement = mysqli_prepare($conn, "SELECT * FROM 
+                                                                (SELECT 
+                                                                    products.*,
+                                                                    products_inventory.sold, 
+                                                                    products_inventory.current_price, 
+                                                                    products_inventory.normal_price, 
+                                                                    products_inventory.quantity 
+                                                                FROM products INNER JOIN products_inventory 
+                                                                ON products.id = products_inventory.product_id) AS product 
+                                                                WHERE product.id = ?");
+                    mysqli_stmt_execute($statement, array($row['id']));
+                    $product = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
+                ?>
 
 
-                            <div class="media">
-                                <div class="image">
-                                    <a href="#"><img src="assets/products/apparel4.jpg" alt=""></a>
-                                </div>
-                                <div class="hoverable">
-                                    <ul>
-                                        <li><a href="#"><i class="ri-heart-line"></i></a></li>
-                                        <li><a href="#"><i class="ri-eye-line"></i></a></li>
-                                        <li><a href="#"><i class="ri-shuffle-line"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="discount circle flexcenter"><span>31%</span></div>
-                            </div>
-                            <div class="content">
-                                <div class="rating">
-                                    <div class="stars"></div>
-                                    <span class="mini-text">(2,546)</span>
-                                </div>
-                                <h3 class="main-links"><a href="#">Happy Sailed Womens Summer Boho Floral</a></h3>
-                            </div>
-                            <div class="price">
-                                <div class="current">$129.99</div>
-                                <div class="normal mini-text">$189.98</div>
-                            </div>
-
-
-                            <div class="stock mini-text">
-                                <div class="qty">
-                                    <span>Stoke: <strong class="qty-available">107</strong></span>
-                                    <span>Sold: <strong class="qty-sold">3,459</strong></span>
-                                </div>
-                                <div class="bar">
-                                    <div class="available"></div>
+                    <div class="col">
+                        <a href="product-details.php?id=<?php echo $row['id']; ?>">
+                            <div class="card border-0" style="width: 18rem;">
+                                <img class="border" src="assets/products/<?php echo $row['cover']; ?>" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-boldas"><?php echo $row['name']; ?></h5>
+                                    <p class="card-text"></p>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <p class="me-2 text-body text-decoration-line-through mb-0"><?php echo $product['0']['normal_price']; ?></p>
+                                        <h3 class="text-body-emphasis mb-0"><?php echo $product['0']['current_price']; ?></h3>
+                                    </div>
                                 </div>
                             </div>
-
-                            
-                        </div>
+                        </a>
                     </div>
-                    <div class="row products mini"></div>
-                    <div class="row products mini"></div>
-                </div>
+
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>
 </div>
+</div>
+
+<script src="js/jquery-2.2.4.min.js"></script>
+<script src="js/owl.carousel.js"></script>
+<script src="js/owl.animate.js"></script>
 
 <?php
-include ("footer.php"); ?>
+
+include("footer.php"); ?>
