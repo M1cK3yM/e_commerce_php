@@ -1,7 +1,37 @@
 <?php
 ob_start();
 session_start();
-require('config/config.php');
+require('config/functions.php');
+
+//checking the login token that are expired
+
+
+
+if(isset($_COOKIE['token'])) {
+    if (checkToken($_COOKIE['token'])) {
+        $current_date_time = date('Y-m-d H:i:s');
+
+        $statement = mysqli_prepare($conn, "SELECT * FROM users WHERE token = ? ");
+        mysqli_stmt_execute($statement, array($_COOKIE['token']));
+        $result = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
+        if($result) {
+            $t1 = strtotime($result['0']['updated_at']);
+            $t2 = strtotime($current_date_time);
+            $diff = $t2 - $t1;
+            if($diff > TOKEN_EXPIRAION_TIME) {
+                $statement = mysqli_prepare($conn, "UPDATE users SET token = NULL WHERE id = ?");
+                mysqli_stmt_execute($statemen, array($result['0']['id']));
+            }
+
+            $_SESSION['customer'] = $result['0'];
+        }
+        
+    } else {
+        unset($_COOKIE['token']);
+        unset($_SESSION['customer']);
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

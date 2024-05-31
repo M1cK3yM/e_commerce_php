@@ -1,7 +1,13 @@
 <?php
 require_once('header.php');
 if (isset($_POST['logout'])) {
+    $current_date_time = date('Y-m-d H:i:s');
+    $statement = mysqli_prepare($conn, "UPDATE users SET token = NULL, updated_at = ? WHERE id = ?");
+    mysqli_stmt_execute($statement, array($current_date_time, $_SESSION['customer']['id']));
+
     unset($_SESSION['customer']);
+    unset($_COOKIE['token']);
+
     header(
         "location: " . BASE_URL . "index.php"
     );

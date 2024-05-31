@@ -34,7 +34,6 @@ if (isset($_POST['form1'])) {
                 $alertMessage = "Incorrect password or email";
             } else {
                 if ($row_password != md5($cust_password)) {
-                    echo md5($cust_password) . " " . $row_password;
                     $alertMessage = "Incorrect password or email";
                 } else {
                     if ($cust_status == 0) {
@@ -42,7 +41,12 @@ if (isset($_POST['form1'])) {
                     } else {
                         $_SESSION['customer'] = $row;
                         if ($_POST['remember']) {
-                            setcookie("customer", $row['id'],  time() + 60);
+                            $token = generateToken();
+                            $statement = mysqli_prepare($conn, "UPDATE users SET token=? , updated_at=? WHERE email = ?");
+                            $current_date_time = date('Y-m-d H:i:s');
+                            if (mysqli_stmt_execute($statement, array($token, $current_date_time, $cust_email))) {
+                                setcookie("token", $token,  time() + TOKEN_EXPIRAION_TIME);
+                            }
                         }
 
                         header("location: " . BASE_URL . "index.php");

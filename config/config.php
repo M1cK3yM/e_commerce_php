@@ -20,6 +20,9 @@ define("ADMIN_URL", BASE_URL . "admin" . "/");
 
 $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
+
+define("TOKEN_EXPIRAION_TIME", 60 * 60);
+
 if(mysqli_connect_errno()) {
 	echo "There was un error: ". mysqli_connect_errno()."<br>";
 	echo "Error Message: " . mysqli_connect_error();
