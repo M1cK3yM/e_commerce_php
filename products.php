@@ -6,8 +6,6 @@ require_once("header.php");
 </header>
 
 <main class="main" id="top">
-    <!-- ============================================-->
-    <!-- <section> begin ============================-->
     <section class="pt-5 pb-9">
         <div class="container"><button class="btn btn-sm btn-phoenix-secondary text-body-tertiary mb-5 d-lg-none" data-phoenix-toggle="offcanvas" data-phoenix-target="#productFilterColumn"><span class="fa-solid fa-filter me-2"></span>Filter</button>
             <div class="row">

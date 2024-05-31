@@ -90,8 +90,8 @@ include("header.php");
                                     <h5 class="card-title fw-boldas"><?php echo $row['name']; ?></h5>
                                     <p class="card-text"></p>
                                     <div class="d-flex align-items-center mb-1">
-                                        <p class="me-2 text-body text-decoration-line-through mb-0"><?php echo $product['0']['normal_price']; ?></p>
-                                        <h3 class="text-body-emphasis mb-0"><?php echo $product['0']['current_price']; ?></h3>
+                                        <p class="me-2 text-body text-decoration-line-through mb-0"><?php echo "$".$product['0']['normal_price']; ?></p>
+                                        <h3 class="text-body-emphasis mb-0"><?php echo "$".$product['0']['current_price']; ?></h3>
                                     </div>
                                 </div>
                             </div>

@@ -714,7 +714,7 @@ CREATE TABLE products_inventory (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (product_id) REFERENCES products(id),
   FOREIGN KEY (color_id) REFERENCES product_color(id),
-  FOREIGzN KEY (size_id) REFERENCES product_size(id)
+  FOREIGN KEY (size_id) REFERENCES product_size(id)
 );
 
 INSERT INTO
