@@ -27,7 +27,20 @@ require('config/config.php');
                     <div class="logo"><a href="index.php"><span class="circle"></span>.Store</a></div>
                     <a href="#" class="t-close flexcenter"><i class="ri-close-line"></i></a>
                 </div>
-                <div class="categories"></div>
+                <div class="container">
+                    <div class="right">
+                        <ul class="flexitem main-links align-items-start" style="font-size: 13px; line-height: 36px; padding-top: 1.25em; margin: 1.25em 0; flex-direction: column;">
+
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="products.php">Products</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="categories">
+
+                </div>
                 <nav></nav>
                 <div class="thetop-nav"></div>
             </div>
@@ -50,7 +63,7 @@ require('config/config.php');
 
                                 <?php
                                 if (isset($_SESSION['customer'])) { ?>
-                                    <li><a href="profile">My account</a></li>
+                                    <li><a href="profile.php">My account</a></li>
                                     <li><a href="order-tracking">Order Tracking</a></li>
                                 <?php } else {
                                 ?>
@@ -116,7 +129,7 @@ require('config/config.php');
                                                                     <ul>
                                                                         <?php
                                                                         $statement = mysqli_prepare($conn, "SELECT * FROM end_category WHERE sc_id=? ");
-                                                                        
+
                                                                         mysqli_stmt_execute($statement, array($row1['sc_id']));
                                                                         $result2 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 

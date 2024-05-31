@@ -45,7 +45,7 @@ $category = $statement->fetchAll(PDO::FETCH_ASSOC);
             <!-- ========================== Bread Crumb ============================ -->
             <nav style="--bs-breadcrumb-divider: '>';" class="mb-3" aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                     <li class="breadcrumb-item"><a href="#"><?php echo $category['0']['mc_name']; ?></a></li>
                     <li class="breadcrumb-item"><a href="#"><?php echo $category['0']['sc_name']; ?></a></li>
                     <li class="breadcrumb-item active" aria-current="page"><?php echo $category['0']['ec_name']; ?></li>

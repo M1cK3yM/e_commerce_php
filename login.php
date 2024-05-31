@@ -25,23 +25,27 @@ if (isset($_POST['form1'])) {
             $total = $statement->rowCount();
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach($result as $row) {
+            foreach ($result as $row) {
                 $cust_status = $row['status'];
                 $row_password = $row['password'];
             }
 
-            if($total == 0) {
+            if ($total == 0) {
                 $alertMessage = "Incorrect password or email";
             } else {
-                if ( $row_password != md5($cust_password)) {
+                if ($row_password != md5($cust_password)) {
                     echo md5($cust_password) . " " . $row_password;
                     $alertMessage = "Incorrect password or email";
                 } else {
-                    if($cust_status == 0) {
+                    if ($cust_status == 0) {
                         $alertMessage = "Verify your email first";
                     } else {
                         $_SESSION['customer'] = $row;
-                        header("location: ".BASE_URL."index.php");
+                        if ($_POST['remember']) {
+                            setcookie("customer", $row['id'],  time() + 60);
+                        }
+
+                        header("location: " . BASE_URL . "index.php");
                     }
                 }
             }
@@ -71,11 +75,11 @@ if (isset($_POST['form1'])) {
 
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" value="remember-me"> Remember me
+                    <input type="checkbox" value="remember-me" name="remember"> Remember me
                 </label>
             </div>
             <button class="w-100 btn btn-lg mb-3" type="submit" id="login" name="form1">Login</button>
-            <p class="text-center text-muted mb-3">New to .Store? <a href="register.php" ><u>Create account here</u></a></p>
+            <p class="text-center text-muted mb-3">New to .Store? <a href="register.php"><u>Create account here</u></a></p>
             <a href="forget-password.php" id="forgetL">Forget password?</a>
         </form>
     </div>

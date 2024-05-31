@@ -297,6 +297,19 @@ VALUES
   (244, 'Zambia'),
   (245, 'Zimbabwe');
 
+  CREATE TABLE `shipping_cost` (
+  `id` int NOT NULL,
+  `country_id` int NOT NULL,
+  `amount` varchar(20) NOT NULL,
+  FOREIGN KEY (country_id) REFERENCES country(country_id)
+);
+
+INSERT INTO `shipping_cost` (`id`, `country_id`, `amount`) VALUES
+(1, 228, '11'),
+(2, 167, '10'),
+(3, 13, '8'),
+(4, 230, '0');
+
 CREATE TABLE addresses (
   `id` int NOT NULL,
   `user_id` int DEFAULT NULL,

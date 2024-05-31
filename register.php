@@ -30,6 +30,14 @@ if (isset($_POST['form2'])) {
         }
         if (empty($_POST['c_username_r'])) {
             $unvalid = false;
+        } else {
+            $statement = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
+            mysqli_stmt_execute($statement, array($_POST['c_username_r']));
+            $utotal = mysqli_num_rows(mysqli_stmt_get_result($statement));
+
+            if ($utotal) {
+                $unvalid = -1;
+            }
         }
         if (empty($_POST['c_password_r'])) {
             $pvalid = false;
@@ -40,7 +48,8 @@ if (isset($_POST['form2'])) {
             $rpvalid = -1;
         }
 
-        if ($evalid && $fnvalid && $lnvalid && $cvalid && $svalid && $pvalid && $rpvalid && $unvalid) {
+        if ($evalid === true && $fnvalid && $lnvalid && $cvalid && $svalid && $pvalid && $rpvalid === true && $unvalid === true) {
+            echo "dont go there";
             $token = md5(time());
             $cust_datetime = date('Y-m-d h:i:s');
             $cust_timestamp = time();
@@ -92,7 +101,7 @@ if (isset($_POST['form2'])) {
 
 
 <section class="mb-4">
-    <div class="mask d-flex align-items-center gradient-custom-3">
+    <div class="d-flex align-items-center">
         <div class="container">
             <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-12 col-md-9 col-lg-7 col-xl-6">
@@ -138,10 +147,26 @@ if (isset($_POST['form2'])) {
                                     <label class="visually-hidden" for="autoSizingInputGroup">Username</label>
                                     <div class="input-group">
                                         <div class="input-group-text">@</div>
-                                        <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Username" name="c_username_r" value="<?php if (isset($_POST['c_username_r'])) {
-                                                                                                                                                                echo $_POST['c_username_r'];
-                                                                                                                                                            } ?>">
+                                        <input type="text" class="form-control form-control-lg <?php if (isset($unvalid)) {
+                                                                                                    if ($unvalid === true) {
+                                                                                                        echo "is-valid";
+                                                                                                    } else if ($unvalid === false || $unvalid === -1) {
+                                                                                                        echo "is-invalid";
+                                                                                                    }
+                                                                                                } ?>" id="autoSizingInputGroup" placeholder="Username" name="c_username_r" value="<?php if (isset($_POST['c_username_r'])) {
+                                                                                                                                                                                        echo $_POST['c_username_r'];
+                                                                                                                                                                                    } ?>">
+                                        <div class="invalid-feedback">
+                                            <?php
+                                            if ($unvalid === false) {
+                                                echo "Please provide a username";
+                                            } else if ($unvalid === -1) {
+                                                echo "username is taken";
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
+
                                 </div>
 
 
@@ -181,7 +206,7 @@ if (isset($_POST['form2'])) {
                                     <input type="password" id="formRPassword" class="form-control form-control-lg <?php if (isset($rpvalid)) {
                                                                                                                         if ($rpvalid === true) {
                                                                                                                             echo "is-valid";
-                                                                                                                        } else if ($rpvalid === false) {
+                                                                                                                        } else if ($rpvalid === false || $rpvalid === -1) {
                                                                                                                             echo "is-invalid";
                                                                                                                         }
                                                                                                                     } ?>" placeholder="repeat your password" name="c_rpassword_r" value="<?php if (isset($_POST['c_rpassword_r'])) {
@@ -192,45 +217,10 @@ if (isset($_POST['form2'])) {
                                         <?php
                                         if ($rpvalid === false) {
                                             echo "Password cannot be empty.";
-                                        } else {
+                                        } else if ($rpvalid === -1) {
                                             echo "Password aren't matched.";
                                         }
                                         ?>
-                                    </div>
-                                </div>
-
-                                <div data-mdb-input-init class="form-outline mb-4">
-                                    <label class="form-label" for="formCountry">Country</label>
-                                    <select name="c_country_r" id="formCountry" class="form-select">
-                                        <option selected disabled value="">Choose...</option>
-                                        <?php
-                                        $statement = $pdo->prepare("SELECT * FROM country ORDER BY country_name ASC");
-                                        $statement->execute();
-                                        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($result as $row) {
-                                        ?>
-                                            <option value="<?php echo $row['country_id']; ?>"><?php echo $row['country_name']; ?></option>
-                                        <?php } ?>
-
-                                    </select>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div data-mdb-input-init class="form-floating form-outline mb-4">
-                                            <input type="text" id="formState" class="form-control form-control-lg" placeholder="state" name="c_state_r" value="<?php if (isset($_POST['c_state_r'])) {
-                                                                                                                                                                    echo $_POST['c_state_r'];
-                                                                                                                                                                } ?>" />
-                                            <label class="form-label" for="formState">State</label>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div data-mdb-input-init class="form-floating form-outline mb-4">
-                                            <input type="number" id="formZipCode" class="form-control form-control-lg" placeholder="country" name="c_zipcode_r" value="<?php if (isset($_POST['c_zipcode_r'])) {
-                                                                                                                                                                            echo $_POST['c_zipcode_r'];
-                                                                                                                                                                        } ?>" />
-                                            <label class="form-label" for="formZipCode">Zip Code</label>
-                                        </div>
                                     </div>
                                 </div>
 
