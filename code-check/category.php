@@ -1,23 +1,19 @@
-<?php
-require_once ("header.php"); ?>
-</header>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category Page</title>
-    <link rel="stylesheet" href="css/category.css">
-    <link rel="stylesheet" href="css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="category.css">
+    <link rel="stylesheet" href="">
 </head>
 <body>
     <div class="container">
         <div class="sidebar">
             <div class="category">
-                <div class="category-header" onclick="toggleCategory('men')"><i class="ri-add-line"></i> MEN</div>
+                <div class="category-header" onclick="toggleCategory('men')"><i class="bi bi-plus"></i> MEN</div>
                 <div class="subcategory" id="men">
-                    <div class="subcategory-header" onclick="toggleSubcategory('men-accessories')"><i class="ri-add-line"></i> Men Accessories</div>
+                    <div class="subcategory-header" onclick="toggleSubcategory('men-accessories')">Men Accessories</div>
                     <div class="subcategory-content" id="men-accessories">
                         <a href="#">Headwear</a>
                         <a href="#">Sunglasses</a>
@@ -26,19 +22,19 @@ require_once ("header.php"); ?>
                         <a href="#">Multipacks</a>
                         <a href="#">Other Accessories</a>
                     </div>
-                    <div class="subcategory-header"><i class="ri-add-line"></i> Men's Shoes</div>
-                    <div class="subcategory-header"><i class="ri-add-line"></i> Bottoms</div>
-                    <div class="subcategory-header"><i class="ri-add-line"></i> T-shirts & Shirts</div>
+                    <div class="subcategory-header">Men's Shoes</div>
+                    <div class="subcategory-header">Bottoms</div>
+                    <div class="subcategory-header">T-shirts & Shirts</div>
                 </div>
             </div>
             <div class="category">
-                <div class="category-header" onclick="toggleCategory('women')"><i class="ri-add-line"></i> WOMEN</div>
+                <div class="category-header" onclick="toggleCategory('women')">WOMEN</div>
             </div>
             <div class="category">
-                <div class="category-header" onclick="toggleCategory('kids')"><i class="ri-add-line"></i> KIDS</div>
+                <div class="category-header" onclick="toggleCategory('kids')">KIDS</div>
             </div>
             <div class="category">
-                <div class="category-header" onclick="toggleCategory('electronics')"><i class="ri-add-line"></i> ELECTRONICS</div>
+                <div class="category-header" onclick="toggleCategory('electronics')">ELECTRONICS</div>
             </div>
         </div>
         <div class="main-content">
@@ -63,9 +59,6 @@ require_once ("header.php"); ?>
             </div>
         </div>
     </div>
-    <script src="js/category.js"></script>
+    <script src="category.js"></script>
 </body>
 </html>
-
-<?php
-require_once ("footer.php"); ?>
