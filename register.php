@@ -15,9 +15,9 @@ if (isset($_POST['form2'])) {
         if (filter_var($_POST['c_email_r'], FILTER_VALIDATE_EMAIL) === false) {
             $evalid = false;
         } else {
-            $statement = $pdo->prepare("SELECT * FROM users WHERE email=?");
-            $statement->execute(array($_POST['c_email_r']));
-            $total = $statement->rowCount();
+            $statement = mysqli_prepare($conn, "SELECT * FROM users WHERE email=?");
+            mysqli_stmt_execute($statement, array($_POST['c_email_r']));
+            $total = mysqli_num_rows(mysqli_stmt_get_result($statement));
             if ($total) {
                 $evalid = false;
             }
@@ -54,7 +54,7 @@ if (isset($_POST['form2'])) {
             $cust_datetime = date('Y-m-d h:i:s');
             $cust_timestamp = time();
 
-            $statement = $pdo->prepare("INSERT INTO `users` (`first_name`, `last_name`, 
+            $statement = mysqli_prepare($conn, "INSERT INTO `users` (`first_name`, `last_name`, 
             `username`, `email`, `password`, `token`, `status`) VALUES
             (?, ?, ?, ?, ?, ?, ?)");
 

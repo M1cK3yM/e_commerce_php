@@ -13,11 +13,6 @@ if (!isset($_GET['id'])) {
     exit();
 }
 
-// $statement = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
-// mysqli_stmt_execute($statement, array($cust_email));
-// $total = mysqli_num_rows(mysqli_stmt_get_result($statement));
-// $result = mysqli_fetch_all(mysqli_stmt_get_result($statement));
-
 $statement = mysqli_prepare($conn, "SELECT * FROM 
     (SELECT 
         products.*, products_inventory.sold, products_inventory.current_price, products_inventory.normal_price, products_inventory.quantity 

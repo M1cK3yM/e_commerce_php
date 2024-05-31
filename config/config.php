@@ -33,10 +33,3 @@ if(!mysqli_select_db($conn, "ecommerce")) {
 	die("Unable to select the database: " . mysqli_error($conn));
 }
 
-try {
-	$pdo = new PDO("mysql:host={$dbhost};dbname={$dbname}", $dbuser, $dbpass);
-	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch( PDOException $exception ) {
-	echo "Connection error :" . $exception->getMessage();
-}

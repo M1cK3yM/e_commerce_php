@@ -12,14 +12,15 @@ require_once("header.php");
                 <div class="col-lg-9 col-xxl-10">
                     <div class="row gx-3 gy-6 mb-8">
                         <?php
-                        $statement = $pdo->prepare("SELECT * FROM products ");
-                        $statement->execute();
-                        $result1 = $statement->fetchAll(PDO::FETCH_ASSOC);
+                        $statement = mysqli_prepare($conn, "SELECT * FROM products ");
+                        mysqli_stmt_execute($statement);
+                        $result1 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
                         foreach ($result1 as $row1) {
-                            $statement = $pdo->prepare("SELECT * FROM review WHERE id = ?");
-                            $statement->execute(array($row1['id']));
-                            $reviews = $statement->fetchAll(PDO::FETCH_ASSOC);
+                            $statement = mysqli_prepare($conn, "SELECT * FROM review WHERE id = ?");
+                            mysqli_stmt_execute($statement, array($row1['id']));
+                            $reviews = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
+                            
 
                         ?>
                             <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
@@ -98,9 +99,9 @@ require_once("header.php");
                                                 <p class="fs-9 text-body-tertiary mb-2"><?php echo $row1['summary']; ?></p>
                                                 <div class="d-flex align-items-center mb-1">
                                                     <?php
-                                                    $statement1 = $pdo->prepare("SELECT * FROM products_inventory WHERE id = ? LIMIT 1");
-                                                    $statement1->execute(array($row1['id']));
-                                                    $result2 = $statement1->fetchAll(PDO::FETCH_ASSOC);
+                                                    $statement1 = mysqli_prepare($conn, "SELECT * FROM products_inventory WHERE id = ? LIMIT 1");
+                                                    mysqli_stmt_execute($statement1, array($row1['id']));
+                                                    $result2 = mysqli_fetch_all(mysqli_stmt_get_result($statement1), MYSQLI_ASSOC);
                                                     $row2 =  $result2['0'];
                                                     ?>
                                                     <p class="me-2 text-body text-decoration-line-through mb-0">$<?php echo $row2['normal_price']; ?></p>
