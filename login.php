@@ -23,6 +23,7 @@ if (isset($_POST['form1'])) {
             $statement = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
             mysqli_stmt_execute($statement, array($cust_email));
             $total = mysqli_num_rows(mysqli_stmt_get_result($statement));
+            mysqli_stmt_execute($statement, array($cust_email));
             $result = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
             foreach ($result as $row) {

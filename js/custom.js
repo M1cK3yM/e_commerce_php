@@ -17,6 +17,7 @@ function quantityInit() {
     n = '[data-quantity] input[type="number"]',
     u = "click",
     i = "min",
+    j = "max",
     r = "type";
   document.querySelectorAll(e).forEach((e) => {
     e.addEventListener(u, (e) => {
@@ -24,11 +25,21 @@ function quantityInit() {
         l = getData(u, r),
         c = u.closest(a).querySelector(n),
         o = c.getAttribute(i);
+        max = c.getAttribute(j);
       let y = parseInt(c.value, 10);
-      "plus" === l ? (y += 1) : (y = y > o ? (y -= 1) : y), (c.value = y);
+      if("plus" === l) {
+        if (y < max) {
+          y += 1;
+        } else {
+          y;
+        }
+      } else if (y > o) {
+        y -= 1;
+      } 
+
+      c.value = y;
     });
   });
 }
 
 quantityInit();
-console.log("here");

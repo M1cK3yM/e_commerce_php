@@ -1,7 +1,14 @@
 <?php
 ob_start();
 session_start();
+
 require('config/functions.php');
+// Initialize the cart
+if (!isset($_COOKIE['cart'])) {
+    setcookie('cart', json_encode([]), time() + TOKEN_EXPIRAION_TIME, "/"); // 1 day expiration
+}
+
+
 
 //checking the login token that are expired
 

@@ -24,7 +24,7 @@ require_once("header.php");
 
                         ?>
                             <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
-                                <div class="Sh-100">
+                                <div>
                                     <div class="text-decoration-none h-100">
                                         <div class="d-flex flex-column justify-content-between h-100">
                                             <div>
