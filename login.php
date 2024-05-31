@@ -20,10 +20,10 @@ if (isset($_POST['form1'])) {
             $cust_email = strip_tags($_POST['c_email']);
             $cust_password = strip_tags($_POST['c_password']);
 
-            $statement = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-            $statement->execute(array($cust_email));
-            $total = $statement->rowCount();
-            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $statement = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
+            mysqli_stmt_execute($statement, array($cust_email));
+            $total = mysqli_num_rows(mysqli_stmt_get_result($statement));
+            $result = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
             foreach ($result as $row) {
                 $cust_status = $row['status'];

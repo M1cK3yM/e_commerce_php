@@ -13,24 +13,30 @@ if (!isset($_GET['id'])) {
     exit();
 }
 
-$statement = $pdo->prepare("SELECT * FROM 
+// $statement = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
+// mysqli_stmt_execute($statement, array($cust_email));
+// $total = mysqli_num_rows(mysqli_stmt_get_result($statement));
+// $result = mysqli_fetch_all(mysqli_stmt_get_result($statement));
+
+$statement = mysqli_prepare($conn, "SELECT * FROM 
     (SELECT 
         products.*, products_inventory.sold, products_inventory.current_price, products_inventory.normal_price, products_inventory.quantity 
     FROM products INNER JOIN products_inventory 
     ON products.id = products_inventory.product_id) AS product 
     WHERE product.id = ?");
-$statement->execute(array($_GET['id']));
-$product = $statement->fetchAll(PDO::FETCH_ASSOC);
+mysqli_stmt_execute($statement, array($_GET['id']));
+$product = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
-$statement = $pdo->prepare("SELECT * FROM (SELECT products.id, end_category.ec_name, sub_category.sc_name, main_category.mc_name FROM products 
+$statement = mysqli_prepare ($conn, "SELECT * FROM (SELECT products.id, end_category.ec_name, sub_category.sc_name, main_category.mc_name FROM products 
 INNER JOIN end_category 
     ON products.category_id = end_category.ec_id 
 INNER JOIN sub_category
     ON end_category.sc_id = sub_category.sc_id
 INNER JOIN main_category
     ON sub_category.mc_id = main_category.mc_id) AS category WHERE category.id = ? LIMIT 1");
-$statement->execute(array($_GET['id']));
-$category = $statement->fetchAll(PDO::FETCH_ASSOC);
+mysqli_stmt_execute($statement, array($_GET['id']));
+$category = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
+
 ?>
 
 
@@ -55,15 +61,16 @@ $category = $statement->fetchAll(PDO::FETCH_ASSOC);
             <!-- ========================== Bread Crumb ============================ -->
             <div id="main">
                 <?php
-                $statement = $statement = $pdo->prepare("SELECT * FROM 
+                $statement = $statement = mysqli_prepare($conn, "SELECT * FROM 
                         (SELECT product_photos.*, color.cvalue, photo.pvalue 
                             FROM product_photos INNER JOIN product_color 
                             ON product_photos.color_id = product_color.id INNER JOIN color 
                             ON product_photos.color_id = color.id INNER JOIN photo 
                             ON product_photos.pid = photo.id) AS pPhotoColor 
                             WHERE pPhotoColor.product_id = ?");
-                $statement->execute(array($product['0']['id']));
-                $product_photos = $statement->fetchAll(PDO::FETCH_ASSOC);
+                mysqli_stmt_execute($statement,array($product['0']['id']) );
+                $product_photos = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
+                
 
 
 
