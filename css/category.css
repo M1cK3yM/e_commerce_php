@@ -4,12 +4,7 @@ body {
     padding: 0;
 }
 
-.container {
-    display: flex;
-}
-
 .sidebar {
-    width: 250px;
     background-color: #f8f8f8;
     padding: 20px;
 }
