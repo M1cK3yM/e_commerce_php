@@ -21,30 +21,31 @@ require_once("header.php"); ?>
                     <?php
                     $statement = mysqli_prepare($conn, "SELECT * FROM sub_category WHERE mc_id=? ");
                     mysqli_stmt_execute($statement, array($value['mc_id']));
-                    $result1 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC); ?> 
+                    $result1 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC); ?>
                     <div class="subcategory" id="<?php echo $key; ?>">
-                    <?php
+                        <?php
 
-                    foreach ($result1 as $key1 => $value1) {
-                    ?>
-                        
-                            <div class="subcategory-header" onclick="toggleSubcategory('<?php echo $key1; ?>')"><i class="ri-add-line"><?php echo $value1['sc_name']; ?></i>
+                        foreach ($result1 as $key1 => $value1) {
+                        ?>
+
+                            <div class="subcategory-header" onclick="toggleSubcategory('<?php echo $key1 + 10; ?>')"><i class="ri-add-line"><?php echo $value1['sc_name']; ?></i>
                                 <?php
                                 $statement = mysqli_prepare($conn, "SELECT * FROM end_category WHERE sc_id=? ");
 
                                 mysqli_stmt_execute($statement, array($value1['sc_id']));
                                 $result2 = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC); ?>
-                                <div class="subcategory-content" id="<?php echo $key1; ?>"><?php
-                                                                                            foreach ($result2 as $row2) { ?>
+                                <div class="subcategory-content" id="<?php echo $key1 + 10; ?>">
+                                    <?php
+                                    foreach ($result2 as $row2) { ?>
 
                                         <a href="#"><?php echo $row2['ec_name']; ?></a>
 
                                     <?php } ?>
                                 </div>
                             </div>
-                        
-                    <?php } ?>
-                </div>
+
+                        <?php } ?>
+                    </div>
                 </div>
             <?php } ?>
         </div>

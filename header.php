@@ -147,7 +147,7 @@ if (isset($_COOKIE['token'])) {
 
                                     foreach ($result as $row) {
                                     ?>
-                                        <li class="has-subcategory"><a href=""><?php echo $row['mc_name']; ?>
+                                        <li class="has-subcategory"><a href="category.php?mid=<?php echo $row['mc_id']; ?>"><?php echo $row['mc_name']; ?>
                                                 <div class="icon-small"><i class="ri-arrow-down-s-line"></i></div>
                                             </a>
                                             <div class="mega">
@@ -173,7 +173,7 @@ if (isset($_COOKIE['token'])) {
 
                                                                         foreach ($result2 as $row2) { ?>
 
-                                                                            <li><a href="#"><?php echo $row2['ec_name']; ?></a></li>
+                                                                            <li><a href="category.php?mid=<?php echo $row['mc_id']; ?>&sid=<?php echo $row1['sc_id']; ?>&eid=<?php echo $row2['ec_id']; ?>"><?php echo $row2['ec_name']; ?></a></li>
 
                                                                         <?php
                                                                         }
