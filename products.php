@@ -20,11 +20,12 @@ require_once("header.php");
                             $statement = mysqli_prepare($conn, "SELECT * FROM review WHERE id = ?");
                             mysqli_stmt_execute($statement, array($row1['id']));
                             $reviews = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
-                            
+
 
                         ?>
+
                             <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
-                                <div>
+                                <a href="product-details.php?id=<?php echo $row1['id'] ?>">
                                     <div class="text-decoration-none h-100">
                                         <div class="d-flex flex-column justify-content-between h-100">
                                             <div>
@@ -34,8 +35,7 @@ require_once("header.php");
                                                     </span>
                                                     <img class="img-fluid" src="assets/products/<?php echo $row1['cover']; ?>" alt="" />
                                                 </div>
-                                                <a
-                                                  href="product-details.php?id=<?php echo $row1['id'] ?>">
+                                                <a href="product-details.php?id=<?php echo $row1['id'] ?>">
                                                     <h6 class="mb-2 lh-sm line-clamp-3 product-name"><?php echo $row1['name']; ?></h6>
                                                 </a>
                                                 <p class="fs-9">
@@ -111,40 +111,11 @@ require_once("header.php");
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         <?php
                         }
                         ?>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination mb-0">
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <span class="fa fa-chevron-left"> </span>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item active" aria-current="page">
-                                    <a class="page-link" href="#">4</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">5</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"> <span class="fa fa-chevron-right"></span></a>
-                                </li>
-                            </ul>
-                        </nav>
                     </div>
                 </div>
             </div>

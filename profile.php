@@ -23,7 +23,9 @@ if (isset($_POST['logout'])) {
 	header("location: " . BASE_URL . "index.php");
 	exit();
 } else if (isset($_POST['update'])) {
+
 } else if (isset($_POST['changepass'])) {
+
 }
 
 ?>
@@ -74,11 +76,6 @@ if (isset($_POST['logout'])) {
 																<label class="form-label">Phone number *</label>
 																<input type="text" class="form-control" placeholder="(333) 000 555" aria-label="Phone number">
 															</div>
-															<!-- Mobile number -->
-															<div class="col-md-6">
-																<label class="form-label">Mobile number *</label>
-																<input type="text" class="form-control" placeholder="+91 9852 8855 252" aria-label="Phone number">
-															</div>
 															<!-- Email -->
 															<div class="col-md-12">
 																<label for="inputEmail4" class="form-label">Email *</label>
@@ -126,17 +123,17 @@ if (isset($_POST['logout'])) {
 															<!-- Old password -->
 															<div class="col-md-6">
 																<label for="exampleInputPassword1" class="form-label">Old password *</label>
-																<input type="password" class="form-control" id="exampleInputPassword1">
+																<input type="password" class="form-control" id="exampleInputPassword1" name="oldPassword">
 															</div>
 															<!-- New password -->
 															<div class="col-md-6">
 																<label for="exampleInputPassword2" class="form-label">New password *</label>
-																<input type="password" class="form-control" id="exampleInputPassword2">
+																<input type="password" class="form-control" id="exampleInputPassword2" name="newPassword">
 															</div>
 															<!-- Confirm password -->
 															<div class="col-md-12">
 																<label for="exampleInputPassword3" class="form-label">Confirm Password *</label>
-																<input type="password" class="form-control" id="exampleInputPassword3">
+																<input type="password" class="form-control" id="exampleInputPassword3" name="confirmPassword>
 															</div>
 														</div>
 													</div>
