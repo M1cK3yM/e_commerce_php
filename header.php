@@ -8,31 +8,32 @@ if (!isset($_COOKIE['cart'])) {
     setcookie('cart', json_encode([]), time() + TOKEN_EXPIRAION_TIME, "/"); // 1 day expiration
 }
 
+$cart = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
+
 
 
 //checking the login token that are expired
 
 
 
-if(isset($_COOKIE['token'])) {
+if (isset($_COOKIE['token'])) {
     if (checkToken($_COOKIE['token'])) {
         $current_date_time = date('Y-m-d H:i:s');
 
         $statement = mysqli_prepare($conn, "SELECT * FROM users WHERE token = ? ");
         mysqli_stmt_execute($statement, array($_COOKIE['token']));
         $result = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
-        if($result) {
+        if ($result) {
             $t1 = strtotime($result['0']['updated_at']);
             $t2 = strtotime($current_date_time);
             $diff = $t2 - $t1;
-            if($diff > TOKEN_EXPIRAION_TIME) {
+            if ($diff > TOKEN_EXPIRAION_TIME) {
                 $statement = mysqli_prepare($conn, "UPDATE users SET token = NULL WHERE id = ?");
                 mysqli_stmt_execute($statemen, array($result['0']['id']));
             }
 
             $_SESSION['customer'] = $result['0'];
         }
-        
     } else {
         unset($_COOKIE['token']);
         unset($_SESSION['customer']);
@@ -225,11 +226,21 @@ if(isset($_COOKIE['token'])) {
                                 <li><a href="cart.php" class="iscart">
                                         <div class="icon-large">
                                             <i class="ri-shopping-cart-line"></i>
-                                            <div class="fly-items"><span class="item-number">0</span></div>
+                                            <div class="fly-items"><span class="item-number"><?php if (empty($cart)) {
+                                                                                                    echo "0";
+                                                                                                } else echo count($cart); ?></span></div>
                                         </div>
                                         <div class="icon-text">
                                             <div class="mini-text">Total</div>
-                                            <div class="cart-total">$0.00</div>
+                                            <div class="cart-total">$<?php $ctotal = 0;
+                                                                        if (empty($cart)) {
+                                                                            echo "0.00";
+                                                                        } else {
+                                                                            foreach ($cart as $item) {
+                                                                                $ctotal += $item['price']*$item['quantity'];
+                                                                            }
+                                                                            echo number_format((float)$ctotal, 2, '.', '');
+                                                                        } ?></div>
                                         </div>
                                     </a></li>
                             </ul>

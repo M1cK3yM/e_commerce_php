@@ -1,5 +1,10 @@
 <?php
 require_once("header.php");
+require_once("config/functions.php");
+
+
+
+
 ?>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/styles.css">
@@ -31,22 +36,35 @@ require_once("header.php");
                                 </tr>
                             </thead>
                             <tbody class="list" id="cart-table-body">
+                                <?php foreach ($cart as $item) { ?>
                                 <tr class="cart-table-row btn-reveal-trigger">
                                     <td class="align-middle white-space-nowrap py-0"><a class="d-block border border-translucent rounded-2" href="product-details.html"><img src="assets/img/products/1.png" alt="" width="53"></a></td>
-                                    <td class="products align-middle"><a class="fw-semibold mb-0 line-clamp-2 text-truncate d-block" href="product-details.html" style="max-width: 300px;">Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management &amp; Skin Temperature Trends, Carbon/Graphite, One Size (S &amp; L Bands)</a></td>
+                                    <td class="products align-middle"><a class="fw-semibold mb-0 line-clamp-2 text-truncate d-block" href="product-details.html" style="max-width: 300px;"><?php echo $item['name'] ?></a></td>
                                     <td class="color align-middle white-space-nowrap fs-9 text-body">Glossy black</td>
                                     <td class="size align-middle white-space-nowrap text-body-tertiary fs-9 fw-semibold">XL</td>
-                                    <td class="price align-middle text-body fs-9 fw-semibold text-end">$199</td>
+                                    <td class="price align-middle text-body fs-9 fw-semibold text-end">$<?php echo $item['price']; ?></td>
                                     <td class="quantity align-middle fs-8 ps-5">
-                                        <div class="input-group input-group-sm flex-nowrap" data-quantity="data-quantity"><button class="btn btn-sm px-2" data-type="minus">-</button><input class="form-control text-center input-spin-none bg-transparent border-0 px-0" type="number" min="1" value="2" aria-label="Amount (to the nearest dollar)"><button class="btn btn-sm px-2" data-type="plus">+</button></div>
+                                        <div class="input-group input-group-sm flex-nowrap" data-quantity="data-quantity">
+                                            <button class="btn btn-sm px-2" data-type="minus">-</button>
+                                            <input class="form-control text-center input-spin-none bg-transparent border-0 px-0" type="number" min="1" value="<?php echo $item['quantity']; ?>" aria-label="Amount (to the nearest dollar)">
+                                            <button class="btn btn-sm px-2" data-type="plus">+</button></div>
                                     </td>
-                                    <td class="total align-middle fw-bold text-body-highlight text-end">$398</td>
+                                    <td class="total align-middle fw-bold text-body-highlight text-end">$<?php echo $item['price']*$item['quantity'] ?></td>
                                     <td class="align-middle white-space-nowrap text-end pe-0 ps-3"><button class="btn btn-sm text-body-tertiary text-opacity-85 text-body-tertiary-hover me-2">
                                         <span class="fa fa-trash"></span></button></td>
                                 </tr>
+                                <?php  } ?>
                                 <tr class="cart-table-row btn-reveal-trigger">
                                     <td class="text-body-emphasis fw-semibold ps-0 fs-8" colspan="6">Items subtotal :</td>
-                                    <td class="text-body-emphasis fw-bold text-end fs-8">$691</td>
+                                    <td class="text-body-emphasis fw-bold text-end fs-8">$<?php $ctotal = 0;
+                                                                        if (empty($cart)) {
+                                                                            echo "0.00";
+                                                                        } else {
+                                                                            foreach ($cart as $item) {
+                                                                                $ctotal += $item['price']*$item['quantity'];
+                                                                            }
+                                                                            echo number_format((float)$ctotal, 2, '.', '');
+                                                                        } ?></td>
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -100,4 +118,5 @@ require_once("header.php");
     <script src="js/custom.js"></script>
 </section>
 
-<? require_once("footer.php");
+<?php
+require_once("footer.php");

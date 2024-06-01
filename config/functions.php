@@ -22,16 +22,33 @@ function checkToken($token)
     return false;
 }
 
+// Initialize the cart if it doesn't exist
+if (!isset($_COOKIE['cart'])) {
+    setcookie('cart', json_encode([]), time() + TOKEN_EXPIRAION_TIME, "/"); // 1 day expiration
+}
+
 // Function to add item to the cart
-function addToCart($itemID, $quantity)
-{
+function addToCart($itemID, $name, $quantity, $price) {
     $cart = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
 
-    // If the item is already in the cart, update the quantity
-    if (isset($cart[$itemID])) {
-        $cart[$itemID] += $quantity;
-    } else {
-        $cart[$itemID] = $quantity;
+    // Check if the item already exists in the cart
+    $found = false;
+    foreach ($cart as &$item) {
+        if ($item['itemid'] == $itemID) {
+            $item['quantity'] += $quantity;
+            $found = true;
+            break;
+        }
+    }
+
+    // If item is not found, add new item
+    if (!$found) {
+        $cart[] = [
+            'itemid' => $itemID,
+            'name' => $name,
+            'quantity' => $quantity,
+            'price' => $price
+        ];
     }
 
     // Save the updated cart to the cookie
@@ -39,41 +56,30 @@ function addToCart($itemID, $quantity)
 }
 
 // Function to view the cart
-function viewCart()
-{
+function viewCart() {
     $cart = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
 
     if (empty($cart)) {
         echo "Your cart is empty.";
     } else {
-        foreach ($cart as $itemID => $quantity) {
-            echo "Item ID: $itemID, Quantity: $quantity<br>";
+        print_r($cart);
+        foreach ($cart as $index => $item) {
+            echo "Item Index: $index, Item ID: {$item['itemid']}, Quantity: {$item['quantity']}, Price: {$item['price']}<br>";
         }
     }
 }
 
 // Function to remove item from the cart
-function removeFromCart($itemID)
-{
+function removeFromCart($index) {
     $cart = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
 
-    if (isset($cart[$itemID])) {
-        unset($cart[$itemID]);
+    if (isset($cart[$index])) {
+        unset($cart[$index]);
+        // Re-index the array to remove gaps
+        $cart = array_values($cart);
         setcookie('cart', json_encode($cart), time() + TOKEN_EXPIRAION_TIME, "/");
-        echo "Item $itemID removed from cart.";
+        echo "Item at index $index removed from cart.";
     } else {
-        echo "Item $itemID not found in cart.";
-    }
-}
-
-// Handle form submissions
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['add'])) {
-        $itemID = htmlspecialchars($_POST['itemID']);
-        $quantity = intval($_POST['quantity']);
-        addToCart($itemID, $quantity);
-    } elseif (isset($_POST['remove'])) {
-        $itemID = htmlspecialchars($_POST['itemID']);
-        removeFromCart($itemID);
+        echo "Item at index $index not found in cart.";
     }
 }

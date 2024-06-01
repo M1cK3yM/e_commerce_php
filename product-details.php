@@ -41,7 +41,11 @@ mysqli_stmt_execute($statement, array($product_id));
 $product_size = mysqli_fetch_all(mysqli_stmt_get_result($statement), MYSQLI_ASSOC);
 
 if(isset($_POST['addtocart'])) {
-    print_r($_POST);
+    addToCart($product_id, $product['0']['name'], $_POST['quantity'], $product['0']['current_price']);
+
+    header('location: cart.php');
+
+    exit();
 }
 
 
